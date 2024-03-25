@@ -56,7 +56,7 @@ const enableRedis = env.ENABLE_REDIS;
 async function initServer() {
     const io = new Server(env.PORT, {
         cors: {
-            origin: "*",
+            origin: env.CORS_ORIGIN,
         },
     });
 
