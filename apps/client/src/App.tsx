@@ -18,6 +18,10 @@ const initialState: State = {
     favourites: [],
 };
 
+function isFavourite(name: string, state: State) {
+    return state.favourites.find((favourite) => favourite.name === name);
+}
+
 function App() {
     const [state, setState] = useState(initialState);
 
@@ -49,7 +53,7 @@ function App() {
                                 className="flex items-center gap-2 bg-black text-white px-3 py-2"
                             >
                                 <button
-                                    className="leading-none"
+                                    className="leading-none capitalize"
                                     onClick={() =>
                                         addItem(favourite.name, state)
                                     }
@@ -74,24 +78,34 @@ function App() {
                     {state.items.map((item) => (
                         <div
                             key={item.id}
-                            className="py-4 flex items-center border-black"
+                            className="py-4 flex items-center border-black capitalize"
                         >
                             {item.name}
                             <div className="ml-auto flex gap-4">
                                 <Button
-                                    onClick={() =>
-                                        addFavourite(item.name, state)
-                                    }
+                                    onClick={() => {
+                                        const favourite = isFavourite(
+                                            item.name,
+                                            state,
+                                        );
+
+                                        if (favourite) {
+                                            deleteFavourite(
+                                                favourite.id,
+                                                state,
+                                            );
+                                        } else {
+                                            addFavourite(item.name, state);
+                                        }
+                                    }}
                                     intent={"secondary"}
                                 >
                                     <HeartIcon
                                         className={clsx({
-                                            "text-red-500":
-                                                state.favourites.find(
-                                                    (favourite) =>
-                                                        favourite.name ===
-                                                        item.name,
-                                                ),
+                                            "text-red-500": isFavourite(
+                                                item.name,
+                                                state,
+                                            ),
                                         })}
                                     />
                                 </Button>

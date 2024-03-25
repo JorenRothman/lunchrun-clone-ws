@@ -34,11 +34,18 @@ export default function ItemForm({ submitHandler }: Props) {
                 name="name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className={clsx("border border-black p-2", {
-                    "border-red-500": isError,
-                })}
+                className={clsx(
+                    "border border-black py-2 px-4 w-full focus:outline-none focus-visible:outline-none",
+                    {
+                        "border-red-500": isError,
+                    },
+                )}
             />
-            <Button type="submit" size={"large"} className="ml-[-1px]">
+            <Button
+                type="submit"
+                size={"large"}
+                className="ml-[-1px] shrink-0 "
+            >
                 Add Item
             </Button>
         </form>
