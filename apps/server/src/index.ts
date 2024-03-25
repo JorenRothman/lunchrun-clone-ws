@@ -3,6 +3,8 @@ import { Server } from "socket.io";
 import { createClient } from "redis";
 import { env } from "./env";
 
+console.log(env.CORS_ORIGIN);
+
 async function createRedisClient() {
     const client = createClient({
         url: env.REDIS_URL,
