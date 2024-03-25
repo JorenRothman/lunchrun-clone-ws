@@ -1,9 +1,8 @@
 import type { State } from "@repo/shared/types";
+import express from "express";
 import { Server } from "socket.io";
 import { createClient } from "redis";
 import { env } from "./env";
-
-console.log(env.CORS_ORIGIN);
 
 async function createRedisClient() {
     const client = createClient({
@@ -56,7 +55,17 @@ function lowercaseStateValues(state: State): State {
 const enableRedis = env.ENABLE_REDIS;
 
 async function initServer() {
-    const io = new Server(env.PORT, {
+    const app = express();
+
+    app.get("/health", (req, res) => {
+        res.send("OK");
+    });
+
+    const expressServer = app.listen(env.PORT, () => {
+        console.log(`Express server running on http://${env.HOST}:${env.PORT}`);
+    });
+
+    const io = new Server(expressServer, {
         cors: {
             origin: env.CORS_ORIGIN,
         },
@@ -80,7 +89,7 @@ async function initServer() {
         });
     });
 
-    console.log(`Server running on http://${env.HOST}:${env.PORT}`);
+    // console.log(`Server running on http://${env.HOST}:${env.PORT}`);
 }
 
 initServer();
