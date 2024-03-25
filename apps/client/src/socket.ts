@@ -1,12 +1,12 @@
-import { io } from 'socket.io-client';
-import { env } from './env';
-import type { State } from '@repo/shared/types';
-import { randomString } from '@repo/shared/utils';
+import { io } from "socket.io-client";
+import { env } from "./env";
+import type { State } from "@repo/shared/types";
+import { randomString } from "@repo/shared/utils";
 
 export const socket = io(env.VITE_SERVER_URL, {});
 
 export function addItem(name: string, state: State) {
-    socket.emit('update', {
+    socket.emit("update", {
         ...state,
         items: [
             ...state.items,
@@ -21,7 +21,7 @@ export function addItem(name: string, state: State) {
 }
 
 export function deleteItem(id: string, state: State) {
-    socket.emit('update', {
+    socket.emit("update", {
         ...state,
         items: state.items.filter((item) => item.id !== id),
     });
@@ -33,7 +33,7 @@ export function addFavourite(name: string, state: State) {
         return;
     }
 
-    socket.emit('update', {
+    socket.emit("update", {
         ...state,
         favourites: [
             ...state.favourites,
@@ -46,7 +46,7 @@ export function addFavourite(name: string, state: State) {
 }
 
 export function deleteFavourite(id: string, state: State) {
-    socket.emit('update', {
+    socket.emit("update", {
         ...state,
         favourites: state.favourites.filter((favourite) => favourite.id !== id),
     });
