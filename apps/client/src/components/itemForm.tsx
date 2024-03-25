@@ -28,7 +28,10 @@ export default function ItemForm({ submitHandler }: Props) {
     }
 
     return (
-        <form onSubmit={onSubmit} className="mt-8 flex">
+        <form
+            onSubmit={onSubmit}
+            className="mt-8 flex fixed bottom-0 left-0 right-0 py-6 px-4 border-t-2 border-black bg-white"
+        >
             <input
                 type="text"
                 name="name"
