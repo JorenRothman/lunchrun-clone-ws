@@ -45,36 +45,38 @@ function App() {
 
     return (
         <div className="container mx-auto py-12 flex gap-12 flex-col font-geist">
-            <div ref={favouritesParent}>
+            <div>
                 <h2 className="mb-4 text-4xl">Favourites</h2>
-                {state.favourites.length > 0 ? (
-                    <ul className="flex gap-4 flex-wrap">
-                        {state.favourites.map((favourite) => (
-                            <div className="flex" key={favourite.id}>
-                                <Button
-                                    className="capitalize"
-                                    onClick={() =>
-                                        addItem(favourite.name, state)
-                                    }
-                                >
-                                    {favourite.name}
-                                </Button>
-                                <Button
-                                    className="ml-[-1px]"
-                                    onClick={() =>
-                                        deleteFavourite(favourite.id, state)
-                                    }
-                                >
-                                    <XMarkIcon />
-                                </Button>
-                            </div>
-                        ))}
-                    </ul>
-                ) : (
-                    <p className="text-xl">
-                        There are currently no favourites, add some!
-                    </p>
-                )}
+                <div ref={favouritesParent}>
+                    {state.favourites.length > 0 ? (
+                        <ul className="flex gap-4 flex-wrap">
+                            {state.favourites.map((favourite) => (
+                                <div className="flex" key={favourite.id}>
+                                    <Button
+                                        className="capitalize"
+                                        onClick={() =>
+                                            addItem(favourite.name, state)
+                                        }
+                                    >
+                                        {favourite.name}
+                                    </Button>
+                                    <Button
+                                        className="ml-[-1px]"
+                                        onClick={() =>
+                                            deleteFavourite(favourite.id, state)
+                                        }
+                                    >
+                                        <XMarkIcon />
+                                    </Button>
+                                </div>
+                            ))}
+                        </ul>
+                    ) : (
+                        <p className="text-xl">
+                            There are currently no favourites, add some!
+                        </p>
+                    )}
+                </div>
             </div>
 
             <div>
