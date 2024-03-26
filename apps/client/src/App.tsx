@@ -25,7 +25,8 @@ function isFavourite(name: string, state: State) {
 
 function App() {
     const [state, setState] = useState(initialState);
-    const [animationParent] = useAutoAnimate();
+    const [favouritesParent] = useAutoAnimate();
+    const [itemsParent] = useAutoAnimate();
 
     useEffect(() => {
         if (socket.disconnected) {
@@ -43,11 +44,8 @@ function App() {
     }, []);
 
     return (
-        <div
-            ref={animationParent}
-            className="container mx-auto py-12 flex gap-12 flex-col font-geist"
-        >
-            <div>
+        <div className="container mx-auto py-12 flex gap-12 flex-col font-geist">
+            <div ref={favouritesParent}>
                 <h2 className="mb-4 text-4xl">Favourites</h2>
                 {state.favourites.length > 0 ? (
                     <ul className="flex gap-4 flex-wrap">
@@ -81,7 +79,7 @@ function App() {
 
             <div>
                 <h2 className="mb-4 text-4xl">Items</h2>
-                <div className="divide-y">
+                <div className="divide-y" ref={itemsParent}>
                     {state.items.map((item) => (
                         <div
                             key={item.id}
