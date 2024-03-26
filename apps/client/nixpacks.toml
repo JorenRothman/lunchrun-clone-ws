@@ -11,9 +11,8 @@
     dependsOn = ['setup'] # make sure this phase runs after the default 'setup' phase
     cmds = [
         'curl -fsSLo go.tar.gz https://go.dev/dl/go1.22.1.linux-amd64.tar.gz',
-        'tar -C /usr/local -xzf go.tar.gz',
-        'export PATH=$PATH:/usr/local/go/bin',
-        'go version'
+        'tar -zxvf  go.tar.gz go',
+        './go version'
     ]
 
 # download and untar caddy
