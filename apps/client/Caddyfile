@@ -9,9 +9,9 @@
 	}
 	# server options
 	servers {
-		trusted_proxies {
-			static private_ranges # trust railway's proxy
-			cloudflare
+		trusted_proxies static private_ranges
+		trusted_proxies cloudflare {
+			interval 12h
 		}
 	}
 }

@@ -19,7 +19,7 @@ providers=[
         'curl -fsSLo caddy.tar.gz "https://github.com/caddyserver/xcaddy/releases/download/v${XCADDY_VERSION}/xcaddy_${XCADDY_VERSION}_linux_amd64.tar.gz"',
         'tar -zxvf caddy.tar.gz xcaddy',
         'chmod +x xcaddy',
-        './xcaddy build v${CADDY_VERSION} --with github.com/caddy-dns/cloudflare'
+        './xcaddy build v${CADDY_VERSION} --with github.com/WeidiDeng/caddy-cloudflare-ip'
     ]
 
 # format the Caddyfile with fmt
