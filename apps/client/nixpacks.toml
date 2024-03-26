@@ -25,7 +25,7 @@ providers=[
 # format the Caddyfile with fmt
 [phases.fmt]
     dependsOn = ['caddy'] # make sure this phase runs after the 'caddy' phase so that we know we have caddy downloaded
-    cmds = ['caddy fmt --overwrite apps/client/Caddyfile', 'xcaddy --help'] # format the Caddyfile to fix any formatting inconsistencies
+    cmds = ['caddy fmt --overwrite apps/client/Caddyfile'] # format the Caddyfile to fix any formatting inconsistencies
 
 # copy caddy and build artifacts to a new image and start the caddy web server
 [start]
