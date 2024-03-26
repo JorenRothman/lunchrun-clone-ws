@@ -7,9 +7,18 @@
     CADDY_VERSION = '2.7.6' # specify the caddy version to use here, without a 'v' prefix. https://github.com/caddyserver/caddy/releases
     XCADDY_VERSION = '0.3.5'
 
+[phases.go]
+    dependsOn = ['setup'] # make sure this phase runs after the default 'setup' phase
+    cmds = [
+        'curl -fsSLo go.tar.gz https://go.dev/dl/go1.22.1.linux-amd64.tar.gz',
+        'tar -C /usr/local -xzf go.tar.gz',
+        'export PATH=$PATH:/usr/local/go/bin',
+        'go version'
+    ]
+
 # download and untar caddy
 [phases.caddy]
-    dependsOn = ['setup'] # make sure this phase runs after the default 'setup' phase
+    dependsOn = ['go'] # make sure this phase runs after the default 'go' phase
     cmds = [
         'curl -fsSLo caddy.tar.gz "https://github.com/caddyserver/xcaddy/releases/download/v${XCADDY_VERSION}/xcaddy_${XCADDY_VERSION}_linux_amd64.tar.gz"',
         'tar -zxvf caddy.tar.gz xcaddy',
