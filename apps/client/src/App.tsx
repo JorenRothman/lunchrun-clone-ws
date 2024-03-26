@@ -1,6 +1,7 @@
 import type { State } from "@repo/shared/types";
 import { useEffect, useState } from "react";
 import ItemForm from "./components/itemForm";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 import { HeartIcon, XMarkIcon } from "@heroicons/react/16/solid";
 import clsx from "clsx";
@@ -24,6 +25,7 @@ function isFavourite(name: string, state: State) {
 
 function App() {
     const [state, setState] = useState(initialState);
+    const [animationParent] = useAutoAnimate();
 
     useEffect(() => {
         if (socket.disconnected) {
@@ -31,7 +33,6 @@ function App() {
         }
 
         socket.on("update", (data: State) => {
-            console.log("update from server", data);
             setState(data);
         });
 
@@ -42,38 +43,44 @@ function App() {
     }, []);
 
     return (
-        <div className="container mx-auto py-12 flex gap-12 flex-col font-geist">
-            {state.favourites.length > 0 && (
-                <div>
-                    <h2 className="mb-4 text-xl">Favourites</h2>
+        <div
+            ref={animationParent}
+            className="container mx-auto py-12 flex gap-12 flex-col font-geist"
+        >
+            <div>
+                <h2 className="mb-4 text-4xl">Favourites</h2>
+                {state.favourites.length > 0 ? (
                     <ul className="flex gap-4 flex-wrap">
                         {state.favourites.map((favourite) => (
-                            <div
-                                key={favourite.id}
-                                className="flex items-center gap-2 bg-black text-white px-3 py-2"
-                            >
-                                <button
-                                    className="leading-none capitalize"
+                            <div className="flex" key={favourite.id}>
+                                <Button
+                                    className="capitalize"
                                     onClick={() =>
                                         addItem(favourite.name, state)
                                     }
                                 >
                                     {favourite.name}
-                                </button>
-                                <button
+                                </Button>
+                                <Button
+                                    className="ml-[-1px]"
                                     onClick={() =>
                                         deleteFavourite(favourite.id, state)
                                     }
                                 >
-                                    <XMarkIcon className="size-6 text-white" />
-                                </button>
+                                    <XMarkIcon />
+                                </Button>
                             </div>
                         ))}
                     </ul>
-                </div>
-            )}
+                ) : (
+                    <p className="text-xl">
+                        There are currently no favourites, add some!
+                    </p>
+                )}
+            </div>
+
             <div>
-                <h2 className="mb-4 text-xl">Items</h2>
+                <h2 className="mb-4 text-4xl">Items</h2>
                 <div className="divide-y">
                     {state.items.map((item) => (
                         <div
@@ -112,7 +119,7 @@ function App() {
                                 <Button
                                     onClick={() => deleteItem(item.id, state)}
                                 >
-                                    Delete
+                                    <XMarkIcon />
                                 </Button>
                             </div>
                         </div>
