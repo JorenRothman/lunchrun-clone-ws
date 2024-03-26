@@ -88,8 +88,6 @@ async function initServer() {
             if (enableRedis) writeStateToRedis(latestState);
         });
     });
-
-    // console.log(`Server running on http://${env.HOST}:${env.PORT}`);
 }
 
 initServer();
