@@ -15,7 +15,7 @@ export const env = createEnv({
             .transform((s) => s === "true")
             .default("false"),
         REDIS_URL: z.string().default("redis://localhost:6379"),
-        CORS_ORIGIN: z.string().default("http://localhost:5173"),
+        CORS_ORIGIN: z.string().default("http://localhost:3001"),
     },
     runtimeEnv: process.env,
     emptyStringAsUndefined: true,
