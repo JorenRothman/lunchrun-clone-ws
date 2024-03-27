@@ -47,9 +47,9 @@ function App() {
         <div className="container mx-auto py-12 flex gap-12 flex-col font-geist">
             <div>
                 <h2 className="mb-4 text-4xl">Favourites</h2>
-                <div ref={favouritesParent}>
+                <div ref={favouritesParent} className="flex gap-4 flex-wrap">
                     {state.favourites.length > 0 ? (
-                        <ul className="flex gap-4 flex-wrap">
+                        <>
                             {state.favourites.map((favourite) => (
                                 <div className="flex" key={favourite.id}>
                                     <Button
@@ -70,7 +70,7 @@ function App() {
                                     </Button>
                                 </div>
                             ))}
-                        </ul>
+                        </>
                     ) : (
                         <p className="text-xl">
                             There are currently no favourites, add some!
