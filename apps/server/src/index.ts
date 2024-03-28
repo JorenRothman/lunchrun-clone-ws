@@ -1,9 +1,10 @@
 import type { State } from "@repo/shared/types";
 import express from "express";
 import { Server } from "socket.io";
-// import { createClient } from "redis";
 import Redis from "ioredis";
 import { env } from "./env";
+
+console.log("Starting server...");
 
 async function createRedisClient() {
     const redis = new Redis(env.REDIS_URL);
