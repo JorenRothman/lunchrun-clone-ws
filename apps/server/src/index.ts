@@ -4,9 +4,6 @@ import { Server } from "socket.io";
 import Redis from "ioredis";
 import { env } from "./env";
 
-console.log("Starting server...");
-console.log("redis url:", env.REDIS_URL);
-
 async function createRedisClient() {
     const redis = new Redis(env.REDIS_URL);
 
