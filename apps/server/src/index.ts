@@ -1,17 +1,26 @@
 import type { State } from "@repo/shared/types";
 import express from "express";
 import { Server } from "socket.io";
-import { createClient } from "redis";
+// import { createClient } from "redis";
+import Redis from "ioredis";
 import { env } from "./env";
 
 async function createRedisClient() {
-    const client = createClient({
-        url: env.REDIS_URL,
-    })
-        .on("error", (err) => console.log("Redis Client Error", err))
-        .connect();
+    const redis = new Redis(env.REDIS_URL);
 
-    return client;
+    redis.on("error", (err) => {
+        console.error("Redis error:", err);
+    });
+
+    redis.on("connect", () => {
+        console.log("Connected to Redis");
+    });
+
+    redis.on("close", () => {
+        console.log("Disconnected from Redis");
+    });
+
+    return redis;
 }
 
 async function writeStateToRedis(state: State) {
