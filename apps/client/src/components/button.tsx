@@ -1,5 +1,5 @@
 import { cva, VariantProps } from "class-variance-authority";
-import { cn } from "../lib/util/classname";
+import { cn } from "@/lib/util/classname";
 
 const styles = cva("inline-flex items-center transition-colors duration-100", {
     variants: {

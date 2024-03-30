@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { clsx } from "clsx";
-import Button from "./button";
+import Button from "@/components/button";
 
 interface Props extends React.ComponentPropsWithoutRef<"form"> {
     submitHandler: (name: string) => boolean;

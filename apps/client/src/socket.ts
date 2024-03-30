@@ -1,5 +1,5 @@
 import { io } from "socket.io-client";
-import { env } from "./env";
+import { env } from "@/env";
 import type { State } from "@repo/shared/types";
 import { randomString } from "@repo/shared/utils";
 

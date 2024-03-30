@@ -1,6 +1,6 @@
 import type { State } from "@repo/shared/types";
 import { useEffect, useState } from "react";
-import ItemForm from "./components/itemForm";
+import ItemForm from "@/components/itemForm";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 import { HeartIcon, XMarkIcon } from "@heroicons/react/16/solid";
@@ -11,8 +11,8 @@ import {
     addFavourite,
     deleteItem,
     addItem,
-} from "./socket";
-import Button from "./components/button";
+} from "@/socket";
+import Button from "@/components/button";
 
 const initialState: State = {
     items: [],
