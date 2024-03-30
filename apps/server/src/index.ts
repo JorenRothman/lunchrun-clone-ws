@@ -3,49 +3,7 @@ import express from "express";
 import { Server } from "socket.io";
 import Redis from "ioredis";
 import { env } from "./env";
-
-async function createRedisClient() {
-    const redis = new Redis(env.REDIS_URL);
-
-    redis.on("error", (err) => {
-        console.error("Redis error:", err);
-    });
-
-    redis.on("connect", () => {
-        console.log("Connected to Redis");
-    });
-
-    redis.on("close", () => {
-        console.log("Disconnected from Redis");
-    });
-
-    return redis;
-}
-
-async function writeStateToRedis(state: State) {
-    const client = await createRedisClient();
-
-    await client.set("state", JSON.stringify(state));
-
-    await client.quit();
-}
-
-async function getStateFromRedis(): Promise<State> {
-    const client = await createRedisClient();
-
-    const state = await client.get("state");
-
-    await client.quit();
-
-    if (!state) {
-        return {
-            items: [],
-            favourites: [],
-        };
-    }
-
-    return JSON.parse(state);
-}
+import { get, set } from "@app/redis";
 
 function lowercaseStateValues(state: State): State {
     return {
@@ -80,7 +38,7 @@ async function initServer() {
     });
 
     let latestState = enableRedis
-        ? await getStateFromRedis()
+        ? await get<State>("state", { items: [], favourites: [] })
         : { items: [], favourites: [] };
 
     io.on("connection", (socket) => {
@@ -93,7 +51,7 @@ async function initServer() {
 
             io.emit("update", latestState);
 
-            if (enableRedis) writeStateToRedis(latestState);
+            if (enableRedis) set("state", latestState);
         });
     });
 }
