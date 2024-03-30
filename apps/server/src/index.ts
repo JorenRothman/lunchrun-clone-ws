@@ -1,9 +1,9 @@
 import type { State } from "@repo/shared/types";
 import express from "express";
 import { Server } from "socket.io";
-import Redis from "ioredis";
-import { env } from "./env";
-import { get, set } from "@app/redis";
+import { env } from "@/env";
+import { get, set } from "@/redis";
+import { logger, serverLogger, socketLogger } from "@/logger";
 
 function lowercaseStateValues(state: State): State {
     return {
@@ -24,11 +24,14 @@ async function initServer() {
     const app = express();
 
     app.get("/health", (req, res) => {
+        serverLogger.info("Health check");
         res.send("OK");
     });
 
     const expressServer = app.listen(env.PORT, () => {
-        console.log(`Express server running on http://${env.HOST}:${env.PORT}`);
+        serverLogger.info(
+            `Express server running on http://${env.HOST}:${env.PORT}`,
+        );
     });
 
     const io = new Server(expressServer, {
@@ -42,13 +45,17 @@ async function initServer() {
         : { items: [], favourites: [] };
 
     io.on("connection", (socket) => {
+        socketLogger.info(`Socket connected: ${socket.id}`);
+
         socket.emit("update", latestState);
 
         socket.on("update", (data: State) => {
+            socketLogger.info(`Received update`);
             data = lowercaseStateValues(data);
 
             latestState = data;
 
+            socketLogger.info(`Emitting update`);
             io.emit("update", latestState);
 
             if (enableRedis) set("state", latestState);

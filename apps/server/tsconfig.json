@@ -3,7 +3,7 @@
         "outDir": "./dist",
         "baseUrl": "./",
         "paths": {
-            "@app/*": ["src/*"]
+            "@/*": ["src/*"]
         }
     },
     "extends": "@repo/typescript-config/base.json",
