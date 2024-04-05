@@ -30,16 +30,16 @@ export default function ItemForm({ submitHandler }: Props) {
     return (
         <form
             onSubmit={onSubmit}
-            className="fixed bottom-0 left-0 right-0 py-6 px-4 border-t-2 border-black bg-white"
+            className="sticky bottom-0 left-0 right-0 py-4 px-2  border-t-2 border-purple bg-white mt-auto"
         >
-            <div className="container flex">
+            <div className="container flex md:px-4">
                 <input
                     type="text"
                     name="name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     className={clsx(
-                        "border border-black py-2 px-4 w-full focus:outline-none focus-visible:outline-none",
+                        "border-2 border-purple py-2 px-4 w-full focus:outline-none focus-visible:outline-none bg-white",
                         {
                             "border-red-500": isError,
                         },
