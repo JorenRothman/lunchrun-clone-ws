@@ -4,7 +4,6 @@ import ItemForm from "@/components/itemForm";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 import { HeartIcon, XMarkIcon } from "@heroicons/react/16/solid";
-import clsx from "clsx";
 import {
     socket,
     deleteFavourite,
@@ -15,13 +14,14 @@ import {
 import Button from "@/components/button";
 import { useLocalStorage } from "usehooks-ts";
 import Disconnected from "@/components/disconnected";
+import { cn } from "@/lib/util/classname";
 
 const initialState: State = {
     items: [],
     favourites: [],
 };
 
-function isFavourite(name: string, state: State) {
+function getFavourite(name: string, state: State) {
     return state.favourites.find((favourite) => favourite.name === name);
 }
 
@@ -97,6 +97,7 @@ function App() {
                                         <Button
                                             className="ml-[-1px]"
                                             borderRadius={"right"}
+                                            intent={"primary"}
                                             onClick={() =>
                                                 deleteFavourite(
                                                     favourite.id,
@@ -119,53 +120,49 @@ function App() {
                     <h2 className="mb-3 text-4xl font-light">Items</h2>
                     <div className="py-3 px-4 border-black border bg-white rounded-md shadow-md">
                         <div className="divide-y" ref={itemsParent}>
-                            {state.items.map((item) => (
-                                <div
-                                    key={item.id}
-                                    className="py-4 flex items-center border-black capitalize"
-                                >
-                                    {item.name}
-                                    <div className="ml-auto flex gap-4">
-                                        <Button
-                                            onClick={() => {
-                                                const favourite = isFavourite(
-                                                    item.name,
-                                                    state,
-                                                );
-
-                                                if (favourite) {
-                                                    deleteFavourite(
-                                                        favourite.id,
-                                                        state,
-                                                    );
-                                                } else {
-                                                    addFavourite(
-                                                        item.name,
-                                                        state,
-                                                    );
+                            {state.items.map((item) => {
+                                const favourite = getFavourite(
+                                    item.name,
+                                    state,
+                                );
+                                return (
+                                    <div
+                                        key={item.id}
+                                        className="py-4 flex items-center border-black capitalize"
+                                    >
+                                        {item.name}
+                                        <div
+                                            className={cn("ml-auto flex gap-4")}
+                                        >
+                                            <Button
+                                                isActive={!!favourite}
+                                                onClick={() => {
+                                                    if (favourite) {
+                                                        deleteFavourite(
+                                                            favourite.id,
+                                                            state,
+                                                        );
+                                                    } else {
+                                                        addFavourite(
+                                                            item.name,
+                                                            state,
+                                                        );
+                                                    }
+                                                }}
+                                            >
+                                                <HeartIcon />
+                                            </Button>
+                                            <Button
+                                                onClick={() =>
+                                                    deleteItem(item.id, state)
                                                 }
-                                            }}
-                                            intent={"secondary"}
-                                        >
-                                            <HeartIcon
-                                                className={clsx({
-                                                    "text-red-500": isFavourite(
-                                                        item.name,
-                                                        state,
-                                                    ),
-                                                })}
-                                            />
-                                        </Button>
-                                        <Button
-                                            onClick={() =>
-                                                deleteItem(item.id, state)
-                                            }
-                                        >
-                                            <XMarkIcon />
-                                        </Button>
+                                            >
+                                                <XMarkIcon />
+                                            </Button>
+                                        </div>
                                     </div>
-                                </div>
-                            ))}
+                                );
+                            })}
                         </div>
                     </div>
                 </div>

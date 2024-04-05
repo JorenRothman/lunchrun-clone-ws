@@ -22,7 +22,17 @@ const styles = cva(
                 right: "rounded-r-md",
                 both: "rounded-md",
             },
+            isActive: {
+                true: "bg-yellow text-black",
+            },
         },
+        compoundVariants: [
+            {
+                isActive: true,
+                intent: "primary",
+                className: "bg-yellow text-black",
+            },
+        ],
         defaultVariants: {
             intent: "primary",
             size: "medium",
@@ -39,11 +49,15 @@ export default function Button({
     size,
     borderRadius,
     className,
+    isActive,
     ...props
 }: Props) {
     return (
         <button
-            className={cn(styles({ intent, size, borderRadius }), className)}
+            className={cn(
+                styles({ intent, size, borderRadius, isActive }),
+                className,
+            )}
             {...props}
         />
     );
