@@ -30,7 +30,7 @@ export default function ItemForm({ submitHandler }: Props) {
     return (
         <form
             onSubmit={onSubmit}
-            className="sticky bottom-0 left-0 right-0 py-4 px-2  mt-auto"
+            className="sticky bottom-0 left-0 right-0 py-4 px-2 bg-white mt-auto"
         >
             <div className="container flex md:px-4">
                 <input
