@@ -7,14 +7,14 @@ const styles = cva(
         variants: {
             intent: {
                 primary:
-                    "bg-purple text-white border-2 border-purple hover:bg-yellow hover:text-black",
+                    "bg-purple text-white border-2 border-purple hover:bg-yellow hover:text-purple",
 
                 secondary:
                     "bg-pink text-purple border-2 border-purple hover:bg-purple hover:text-yellow",
             },
             size: {
                 small: "px-2 py-1 gap-2 [&>svg]:size-4",
-                medium: "px-4 py-2 gap-3 [&>svg]:size-5",
+                medium: "px-2 py-1 gap-2  md:px-4 md:py-2 md:gap-3 [&>svg]:size-5",
                 large: "px-4 py-3 gap-4 [&>svg]:size-6",
             },
             borderRadius: {
@@ -23,7 +23,7 @@ const styles = cva(
                 both: "rounded-md",
             },
             isActive: {
-                true: "bg-yellow text-black",
+                true: "bg-yellow text-purple",
             },
         },
         compoundVariants: [
@@ -36,6 +36,7 @@ const styles = cva(
         defaultVariants: {
             intent: "primary",
             size: "medium",
+            borderRadius: "both",
         },
     },
 );

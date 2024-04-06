@@ -39,7 +39,7 @@ export default function ItemForm({ submitHandler }: Props) {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     className={clsx(
-                        "border-2 border-purple py-2 px-4 w-full focus:outline-none focus-visible:outline-none bg-white",
+                        "border-2 border-purple py-2 px-4 w-full focus:outline-none focus-visible:outline-none bg-white rounded-l-md",
                         {
                             "border-red-500": isError,
                         },
@@ -49,6 +49,7 @@ export default function ItemForm({ submitHandler }: Props) {
                     type="submit"
                     size={"large"}
                     className="ml-[-1px] shrink-0 "
+                    borderRadius={"right"}
                 >
                     Add Item
                 </Button>

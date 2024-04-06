@@ -74,9 +74,9 @@ function App() {
         <div className="bg-blue min-h-dvh flex flex-col">
             {!connected && <Disconnected />}
 
-            <div className="container mx-auto py-12 flex gap-12 flex-col font-geist">
+            <div className="container mx-auto py-6 md:py-12 flex gap-6 md:gap-12 flex-col font-geist">
                 <div>
-                    <h2 className="mb-4 text-4xl font-light">Favourites</h2>
+                    <h2 className="mb-4 text-2xl font-light">Favourites</h2>
                     <div
                         ref={favouritesParent}
                         className="flex gap-4 flex-wrap py-3 px-4 border-black border bg-white rounded-md shadow-md"
@@ -117,7 +117,7 @@ function App() {
                 </div>
 
                 <div>
-                    <h2 className="mb-3 text-4xl font-light">Items</h2>
+                    <h2 className="mb-3 text-2xl font-light">Items</h2>
                     <div className="py-3 px-4 border-black border bg-white rounded-md shadow-md">
                         <div className="divide-y" ref={itemsParent}>
                             {state.items.map((item) => {
