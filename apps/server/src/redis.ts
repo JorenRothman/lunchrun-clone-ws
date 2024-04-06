@@ -21,28 +21,43 @@ export async function createRedisClient() {
 }
 
 export async function set<T>(key: string, payload: T) {
-    redisLogger.info(`Setting key: ${key}`);
-
     const client = await createRedisClient();
 
-    await client.set(key, JSON.stringify(payload));
+    if (!client) {
+        return;
+    }
 
-    await client.quit();
+    try {
+        redisLogger.info(`Setting key: ${key}`);
+        await client.set(key, JSON.stringify(payload));
+    } catch (error) {
+        redisLogger.error(error);
+    } finally {
+        await client.quit();
+    }
 }
 
-export async function get<T>(key: string, defaultValue: T): Promise<T> {
+export async function get<T>(key: string, defaultValue: T) {
     redisLogger.info(`Getting key: ${key}`);
 
     const client = await createRedisClient();
 
-    const state = await client.get(key);
-
-    await client.quit();
-
-    if (!state) {
-        redisLogger.info(`Key not found: ${key}`);
+    if (!client) {
         return defaultValue;
     }
 
-    return JSON.parse(state);
+    try {
+        const state = await client.get(key);
+
+        if (!state) {
+            redisLogger.info(`Key not found: ${key}`);
+            return defaultValue;
+        }
+
+        return JSON.parse(state);
+    } catch (error) {
+        redisLogger.error(error);
+    } finally {
+        await client.quit();
+    }
 }

@@ -51,9 +51,8 @@ async function initServer() {
 
         socket.on("update", (data: State) => {
             socketLogger.info(`Received update`);
-            data = lowercaseStateValues(data);
 
-            latestState = data;
+            latestState = lowercaseStateValues(data);
 
             socketLogger.info(`Emitting update`);
             io.emit("update", latestState);
