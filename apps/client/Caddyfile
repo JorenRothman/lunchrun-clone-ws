@@ -32,6 +32,9 @@
 	# enable gzipping responses
 	encode gzip
 
+    # enable etag
+    etag
+
 	# serve files from 'dist'
 	file_server
 
