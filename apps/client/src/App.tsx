@@ -71,7 +71,7 @@ function App() {
     }, [setConnected]);
 
     return (
-        <div className="bg-blue min-h-dvh flex flex-col">
+        <div className="polka-bg min-h-dvh flex flex-col">
             {!connected && <Disconnected />}
 
             <div className="container mx-auto py-6 md:py-12 flex gap-6 md:gap-12 flex-col font-geist">
