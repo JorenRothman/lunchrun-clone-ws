@@ -10,6 +10,8 @@ export default function ItemForm({ submitHandler }: Props) {
     const [name, setName] = useState("");
     const [isError, setIsError] = useState(false);
 
+    console.log({ isError });
+
     function onSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
@@ -27,21 +29,29 @@ export default function ItemForm({ submitHandler }: Props) {
         }
     }
 
+    function onChange(event: React.ChangeEvent<HTMLInputElement>) {
+        if (isError) {
+            setIsError(false);
+        }
+
+        setName(event.target.value);
+    }
+
     return (
         <form
             onSubmit={onSubmit}
-            className="sticky bottom-0 left-0 right-0 py-4 px-2  mt-auto"
+            className="sticky bottom-0 left-0 right-0 py-4 md:px-2  mt-auto"
         >
             <div className="container flex md:px-4">
                 <input
                     type="text"
                     name="name"
                     value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    onChange={onChange}
                     className={clsx(
-                        "border-2 border-purple py-2 px-4 w-full focus:outline-none focus-visible:outline-none bg-white rounded-l-md",
+                        "border-2 border-purple-300 py-2 px-4 w-full focus:outline-none focus-visible:outline-none bg-white rounded-l-md",
                         {
-                            "border-red-500": isError,
+                            "border-red-500 border-2": isError,
                         },
                     )}
                 />

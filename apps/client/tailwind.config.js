@@ -6,10 +6,19 @@ export default {
             geist: "Geist Variable",
         },
         colors: {
-            purple: "hsl(240, 46%, 30%)",
-            blue: "hsl(220, 30%, 95%)",
-            blue2: "hsl(220, 30%, 90%)",
-            yellow: "hsl(40, 100%, 60%)",
+            purple: {
+                300: "hsl(240, 46%, 30%)",
+            },
+            blue: {
+                100: "hsl(220, 30%, 95%)",
+                200: "hsl(220, 30%, 90%)",
+            },
+            red: {
+                500: "hsl(0, 55%, 50%)",
+            },
+            yellow: {
+                500: "hsl(40, 100%, 60%)",
+            },
             white: "hsl(0, 0%, 96%)",
             black: "hsl(0, 0%, 4%)",
         },

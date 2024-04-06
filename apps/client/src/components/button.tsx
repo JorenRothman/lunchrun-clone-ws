@@ -7,10 +7,10 @@ const styles = cva(
         variants: {
             intent: {
                 primary:
-                    "bg-purple text-white border-2 border-purple hover:bg-yellow hover:text-purple",
+                    "bg-purple-300 text-white border-2 border-purple-300 hover:bg-yellow-500 hover:text-purple-300",
 
                 secondary:
-                    "bg-pink text-purple border-2 border-purple hover:bg-purple hover:text-yellow",
+                    "bg-blue-100 text-purple-300 border-2 border-purple-300 hover:bg-purple-300 hover:text-yellow-500",
             },
             size: {
                 small: "px-2 py-1 gap-2 [&>svg]:size-4",
@@ -23,14 +23,14 @@ const styles = cva(
                 both: "rounded-md",
             },
             isActive: {
-                true: "bg-yellow text-purple",
+                true: "bg-yellow-500 text-purple-300",
             },
         },
         compoundVariants: [
             {
                 isActive: true,
                 intent: "primary",
-                className: "bg-yellow text-black",
+                className: "bg-yellow-500 text-black",
             },
         ],
         defaultVariants: {
