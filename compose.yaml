@@ -1,0 +1,37 @@
+# Comments are provided throughout this file to help you get started.
+# If you need more help, visit the Docker Compose reference guide at
+# https://docs.docker.com/go/compose-spec-reference/
+
+# Here the instructions define your application as a service called "server".
+# This service is built from the Dockerfile in the current directory.
+# You can add other services your application may depend on here, such as a
+# database or a cache. For examples, see the Awesome Compose repository:
+# https://github.com/docker/awesome-compose
+services:
+    client:
+        build:
+            context: .
+            dockerfile: Dockerfile.Client
+            args:
+                VITE_SERVER_URL: http://localhost:3000
+        environment:
+            NODE_ENV: production
+        depends_on:
+            - server
+        ports:
+            - 3001:3001
+    server:
+        build:
+            context: .
+            dockerfile: Dockerfile.Server
+        depends_on:
+            - dragonfly
+        environment:
+            ENABLE_REDIS: true
+            REDIS_URL: redis://dragonfly
+        ports:
+            - 3000:3000
+    dragonfly:
+        image: docker.dragonflydb.io/dragonflydb/dragonfly
+        ports:
+            - 6379:6379

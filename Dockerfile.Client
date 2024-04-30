@@ -1,0 +1,56 @@
+ARG NODE_VERSION=20.12.2
+ARG PNPM_VERSION=9.0.1
+
+FROM node:${NODE_VERSION}-alpine as base
+
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
+
+# Set working directory for all build stages.
+WORKDIR /usr/src/app
+
+FROM base AS builder
+RUN apk add --no-cache libc6-compat
+RUN apk update
+
+WORKDIR /app
+RUN pnpm i -g turbo
+COPY . .
+RUN turbo prune client --docker
+
+# Add lockfile and package.json's of isolated subworkspace
+FROM base AS installer
+RUN apk add --no-cache libc6-compat
+RUN apk update
+WORKDIR /app
+
+# First install the dependencies (as they change less often)
+# COPY .gitignore .gitignore
+COPY --from=builder /app/out/json/ .
+COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
+RUN pnpm install
+
+# Build the project
+COPY --from=builder /app/out/full/ .
+
+ARG VITE_SERVER_URL http://localhost:3000
+ENV VITE_SERVER_URL $VITE_SERVER_URL
+
+RUN pnpm turbo run build --filter=client...
+
+FROM base AS runner
+WORKDIR /app
+
+# Don't run production as root
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 reactjs
+USER reactjs
+
+COPY --from=installer /app/apps/client/package.json .
+
+COPY --from=installer --chown=reactjs:nodejs /app/apps/client/dist ./
+
+EXPOSE 3001
+
+CMD pnpm start

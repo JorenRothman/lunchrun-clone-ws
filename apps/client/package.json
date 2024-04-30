@@ -7,7 +7,7 @@
         "dev": "vite",
         "build": "tsc && vite build",
         "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-        "start": "serve dist -l 3001"
+        "start": "pnpx serve -l 3001"
     },
     "dependencies": {
         "@formkit/auto-animate": "^0.8.1",

@@ -1,0 +1,66 @@
+ARG NODE_VERSION=20.12.2
+ARG PNPM_VERSION=9.0.1
+
+FROM node:${NODE_VERSION}-alpine as base
+
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
+
+# Set working directory for all build stages.
+WORKDIR /usr/src/app
+
+FROM base AS builder
+RUN apk add --no-cache libc6-compat
+RUN apk update
+
+WORKDIR /app
+RUN pnpm i -g turbo
+COPY . .
+RUN turbo prune server --docker
+
+
+# Add lockfile and package.json's of isolated subworkspace
+FROM base AS installer
+RUN apk add --no-cache libc6-compat
+RUN apk update
+WORKDIR /app
+
+# First install the dependencies (as they change less often)
+# COPY .gitignore .gitignore
+COPY --from=builder /app/out/json/ .
+COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+# RUN pnpm install
+
+# Build the project
+COPY --from=builder /app/out/full/ .
+
+CMD cd node_modules && ls -l
+
+RUN pnpm turbo run build --filter=server...
+
+FROM base AS runner
+WORKDIR /app
+
+# Don't run production as root
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nodejs
+USER nodejs
+
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store
+
+COPY --from=installer --chown=nodejs:nodejs /app/apps/server/dist ./apps/server/
+COPY --from=installer --chown=nodejs:nodejs /app/apps/server/package.json ./apps/server/package.json
+COPY --from=installer --chown=nodejs:nodejs /app/apps/server/node_modules ./apps/server/node_modules
+COPY --from=installer --chown=nodejs:nodejs /app/node_modules ./node_modules
+
+EXPOSE 3000
+
+ARG ENABLE_REDIS=false
+ARG REDIS_URL=redis://localhost:6379
+
+ENV ENABLE_REDIS=${ENABLE_REDIS}
+ENV REDIS_URL=${REDIS_URL}
+
+CMD node ./apps/server/index.js
