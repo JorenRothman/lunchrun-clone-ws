@@ -1,14 +1,15 @@
 {
     "compilerOptions": {
+        "target": "ESNext",
+        "module": "ESNext",
+        "moduleResolution": "Bundler",
+        "strict": true,
+        "types": ["node"],
+        "jsx": "react-jsx",
+        "jsxImportSource": "hono/jsx",
         "outDir": "./dist",
-        "baseUrl": "./",
-        "paths": {
-            "@/*": ["src/*"]
-        }
+        "baseUrl": "."
     },
-    "extends": "@repo/typescript-config/base.json",
-    "include": ["src/**/*"],
-    "tsc-alias": {
-        "resolveFullPaths": true
-    }
+    "include": ["src/**/*.ts"]
+    // "exclude": ["node_modules"]
 }

@@ -19,7 +19,7 @@ services:
         depends_on:
             - server
         ports:
-            - 3001:3001
+            - 3001:80
     server:
         build:
             context: .

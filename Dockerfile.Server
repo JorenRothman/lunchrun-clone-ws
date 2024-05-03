@@ -66,3 +66,5 @@ ENV REDIS_URL=${REDIS_URL}
 ENV CORS_ORIGIN=${CORS_ORIGIN}
 
 CMD node ./apps/server/index.js
+
+# CMD cd ./apps/server && ls -la && pwd

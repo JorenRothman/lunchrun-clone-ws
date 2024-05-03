@@ -1,11 +1,9 @@
-import { serve } from "@hono/node-server";
-import { Hono } from "hono";
-
 import type { State } from "@repo/shared/types";
+import express from "express";
 import { Server } from "socket.io";
-import { env } from "./env.js";
-import { get, set } from "./redis.js";
-import { serverLogger, socketLogger } from "./logger.js";
+import { env } from "@/env";
+import { get, set } from "@/redis";
+import { logger, serverLogger, socketLogger } from "@/logger";
 
 function lowercaseStateValues(state: State): State {
     return {
@@ -23,21 +21,20 @@ function lowercaseStateValues(state: State): State {
 const enableRedis = env.ENABLE_REDIS;
 
 async function initServer() {
-    const app = new Hono();
+    const app = express();
 
-    app.get("/health", (c) => {
+    app.get("/health", (req, res) => {
         serverLogger.info("Health check");
-        return c.text("OK");
+        res.send("OK");
     });
 
-    serverLogger.info(`Server running on http://${env.HOST}:${env.PORT}`);
-
-    const server = serve({
-        fetch: app.fetch,
-        port: env.PORT,
+    const expressServer = app.listen(env.PORT, () => {
+        serverLogger.info(
+            `Express server running on http://${env.HOST}:${env.PORT}`,
+        );
     });
 
-    const io = new Server(server, {
+    const io = new Server(expressServer, {
         cors: {
             origin: env.CORS_ORIGIN,
         },

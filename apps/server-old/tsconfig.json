@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist",
+        "baseUrl": "./",
+        "paths": {
+            "@/*": ["src/*"]
+        }
+    },
+    "extends": "@repo/typescript-config/base.json",
+    "include": ["src/**/*"],
+    "tsc-alias": {
+        "resolveFullPaths": true
+    }
+}

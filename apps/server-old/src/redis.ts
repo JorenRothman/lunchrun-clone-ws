@@ -1,11 +1,11 @@
 import Redis from "ioredis";
-import { env } from "./env.js";
-import { redisLogger } from "./logger.js";
+import { env } from "./env";
+import { redisLogger } from "@/logger";
 
 export async function createRedisClient() {
     const redis = new Redis(env.REDIS_URL);
 
-    redis.on("error", (err: unknown) => {
+    redis.on("error", (err) => {
         redisLogger.error(err);
     });
 
