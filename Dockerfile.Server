@@ -41,6 +41,7 @@ CMD cd node_modules && ls -l
 RUN pnpm turbo run build --filter=server...
 
 FROM base AS runner
+RUN apk add curl
 WORKDIR /app
 
 # Don't run production as root
