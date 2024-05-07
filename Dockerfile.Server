@@ -55,6 +55,8 @@ COPY --from=installer --chown=nodejs:nodejs /app/apps/server/package.json ./apps
 COPY --from=installer --chown=nodejs:nodejs /app/apps/server/node_modules ./apps/server/node_modules
 COPY --from=installer --chown=nodejs:nodejs /app/node_modules ./node_modules
 
+ENV HOST=0.0.0.0
+
 EXPOSE 3000
 
 ARG ENABLE_REDIS=false
