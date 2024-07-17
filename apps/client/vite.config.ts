@@ -8,7 +8,11 @@ export default defineConfig({
         react(),
         VitePWA({
             registerType: "autoUpdate",
-            manifest: { theme_color: "#292970" },
+            manifest: {
+                theme_color: "#292970",
+                name: "Lunch run",
+                short_name: "Lunch run",
+            },
         }),
     ],
 
